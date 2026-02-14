@@ -3,117 +3,94 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Para ti</title>
+  <title>Tatiana Mentirosita</title>
 
   <style>
     :root{
       --pink:#ff4fbf;
       --pink2:#ff2e9f;
-      --card:rgba(10,10,18,.55);
+      --green:#7CFFB2;
+      --blue:#66b6ff;
+      --card:rgba(10,10,18,.58);
       --stroke:rgba(255, 90, 190, .35);
     }
 
     html,body{
-      margin:0;
-      height:100%;
-      background:#000;
-      overflow:hidden;
+      margin:0;height:100%;
+      background:#000;overflow:hidden;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
     }
 
-    canvas{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      display:block;
-    }
+    canvas{position:fixed;inset:0;width:100%;height:100%;display:block;}
 
-    .wrap{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-    }
-
+    /* ====== Layout ====== */
+    .wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;}
     .card{
-      width:min(780px, 92vw);
-      max-height:min(86vh, 900px);
+      width:min(820px, 94vw);
+      max-height:min(88vh, 920px);
       overflow:auto;
       background:var(--card);
       border:1px solid rgba(255,255,255,.08);
       box-shadow: 0 0 0 1px rgba(255,80,180,.08), 0 18px 70px rgba(0,0,0,.55);
-      border-radius:24px;
+      border-radius:26px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       position:relative;
     }
-
     .glow{
-      position:absolute;
-      inset:-2px;
-      border-radius:26px;
-      pointer-events:none;
-      box-shadow: 0 0 40px rgba(255,70,180,.22), inset 0 0 30px rgba(255,70,180,.10);
+      position:absolute;inset:-2px;border-radius:28px;pointer-events:none;
+      box-shadow: 0 0 42px rgba(255,70,180,.22), inset 0 0 32px rgba(255,70,180,.10);
       border:1px solid var(--stroke);
     }
 
-    .header{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      padding:18px 18px 8px;
-    }
-
+    .header{display:flex;gap:14px;align-items:center;padding:18px 18px 10px;}
     .badge{
-      width:70px;
-      height:70px;
-      border-radius:18px;
+      width:74px;height:74px;border-radius:18px;
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.10);
-      display:grid;
-      place-items:center;
+      display:grid;place-items:center;
       overflow:hidden;
-      box-shadow: 0 0 20px rgba(0,255,100,.20);
+      box-shadow: 0 0 22px rgba(0,255,100,.22);
+      cursor:pointer;
+      transition: transform .15s ease;
     }
+    .badge:active{transform: scale(.97);}
+    .badge img{width:100%;height:100%;object-fit:contain;padding:8px}
 
-    .badge img{
-      width:100%;
-      height:100%;
-      object-fit:contain;
-      padding:8px;
-    }
-
+    .title{display:flex;flex-direction:column;gap:4px}
     h1{
       margin:0;
-      font-size: clamp(20px, 3.4vw, 34px);
+      font-size: clamp(20px, 3.6vw, 36px);
       color:#ffd6f0;
       letter-spacing:.4px;
       text-shadow: 0 0 10px rgba(255,80,180,.6), 0 0 26px rgba(255,60,160,.4);
     }
-
     .sub{
-      margin-top:2px;
-      color:rgba(255,255,255,.78);
+      color:rgba(255,255,255,.80);
       font-size: 13px;
     }
 
-    .body{
-      padding: 10px 18px 18px;
+    .chips{padding: 0 18px 4px; display:flex; gap:10px; flex-wrap:wrap;}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 11px;border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.78);
+      font-size:12px;
+      user-select:none;
     }
 
+    .body{padding: 10px 18px 18px;}
     .msg{
-      color:rgba(255,255,255,.90);
-      font-size: clamp(15px, 2.4vw, 18px);
+      color:rgba(255,255,255,.92);
+      font-size: clamp(15px, 2.45vw, 18px);
       line-height:1.65;
       white-space:pre-wrap;
     }
-
     .highlight{
-      color:#7CFFB2;
-      font-weight:800;
+      color:var(--green);
+      font-weight:900;
       text-shadow: 0 0 10px rgba(0,255,140,.55);
     }
 
@@ -123,7 +100,7 @@
       border-left:3px solid rgba(0,255,120,.65);
       background: rgba(255,255,255,.05);
       border-radius:14px;
-      color:rgba(255,255,255,.84);
+      color:rgba(255,255,255,.86);
       font-style:italic;
     }
 
@@ -138,59 +115,155 @@
       flex-wrap:wrap;
     }
 
-    .pill{
-      pointer-events:none;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-    }
-
-    /* Mariposas */
+    /* ====== Floating butterflies ====== */
     .butterfly{
-      position:fixed;
-      top:-20vh;
-      left:0;
-      width:52px;
-      height:52px;
+      position:fixed;top:-25vh;left:0;
+      width:52px;height:52px;
       background: url("mariposa.png") center/contain no-repeat;
       filter: drop-shadow(0 0 12px rgba(90,170,255,.75));
-      opacity:.95;
-      pointer-events:none;
+      opacity:.95;pointer-events:none;
       animation: flutter 1.2s ease-in-out infinite;
       transform-origin:center;
+      mix-blend-mode: screen;
     }
-
     @keyframes flutter{
       0%,100%{ transform: rotate(-6deg) scale(1); }
-      50%{ transform: rotate(10deg) scale(1.06); }
+      50%{ transform: rotate(12deg) scale(1.07); }
     }
 
+    /* ====== Floating medical + flowers + hearts ====== */
+    .float{
+      position:fixed;top:-20vh;left:0;
+      pointer-events:none;
+      font-size: 22px;
+      opacity:.9;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,.18));
+      user-select:none;
+      mix-blend-mode: screen;
+    }
+
+    /* ====== Toast mini ====== */
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      background: rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.88);
+      padding:10px 12px;
+      border-radius:14px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.55);
+      font-size: 13px;
+      opacity:0;
+      transition: opacity .25s ease, transform .25s ease;
+      max-width: min(92vw, 560px);
+      text-align:center;
+      z-index: 50;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px);}
+
+    /* ====== Modal ====== */
+    .modal{
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(0,0,0,.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 999;
+      padding: 18px;
+    }
+    .modalCard{
+      width:min(520px, 92vw);
+      background: rgba(12,12,20,.72);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:22px;
+      box-shadow: 0 20px 70px rgba(0,0,0,.65);
+      position:relative;
+      overflow:hidden;
+    }
+    .modalGlow{
+      position:absolute; inset:-2px; pointer-events:none;
+      border-radius:24px;
+      box-shadow: 0 0 55px rgba(255,60,160,.22), 0 0 60px rgba(90,170,255,.12);
+      border:1px solid rgba(255, 120, 220, .25);
+    }
+    .modalInner{padding:18px;}
+    .modalTitle{
+      margin:0 0 8px;
+      font-size: 22px;
+      color:#ffd6f0;
+      text-shadow: 0 0 12px rgba(255,80,180,.6);
+    }
+    .modalText{
+      margin:0 0 14px;
+      color: rgba(255,255,255,.82);
+      line-height:1.4;
+      font-size: 14px;
+    }
+    .btns{display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;}
+    .btn{
+      border:0;
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:700;
+      color:#0b0b12;
+      background: linear-gradient(135deg, rgba(255,80,180,.95), rgba(90,170,255,.85));
+      box-shadow: 0 12px 40px rgba(255,60,160,.12);
+    }
+    .btn:active{transform: scale(.98);}
+
+    /* Scroll */
     .card::-webkit-scrollbar{width:10px}
     .card::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:10px}
     .card::-webkit-scrollbar-track{background:rgba(0,0,0,.2);border-radius:10px}
 
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important;}
+    }
   </style>
 </head>
 
 <body>
   <canvas id="bg"></canvas>
 
+  <!-- Modal pregunta -->
+  <div id="modal" class="modal">
+    <div class="modalCard">
+      <div class="modalGlow"></div>
+      <div class="modalInner">
+        <h2 class="modalTitle">¿Eres Tatiana? 😌</h2>
+        <p class="modalText">Responde con sinceridad, futura Dra Pulido… (mentir es opcional 😭)</p>
+        <div class="btns">
+          <button class="btn" id="btnSi1">Sí ✅</button>
+          <button class="btn" id="btnSi2">Sí ✅</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="wrap">
     <div class="card">
       <div class="glow"></div>
 
       <div class="header">
-        <div class="badge">
+        <div class="badge" id="badgeBtn" title="Toca aquí">
           <img src="nacional.png" alt="Escudo Atlético Nacional">
         </div>
-        <div>
-          <h1>Hola sapa 💚🦋</h1>
-          <div class="sub">Un mensajito para ti, en modo galaxia</div>
+
+        <div class="title">
+          <h1>Tatiana Mentirosita 💚🦋</h1>
+          <div class="sub">Futura Dra Pulido 👩‍⚕️</div>
         </div>
+      </div>
+
+      <div class="chips">
+        <div class="chip">👩‍⚕️ Doctrosa</div>
+        <div class="chip">🌸 Flores (pa’ la Dra)</div>
+        <div class="chip">🦋 Mariposas azules</div>
+        <div class="chip">💚 Verde Nacional</div>
+        <div class="chip">📈 “Dra: te odio”</div>
       </div>
 
       <div class="body">
@@ -202,29 +275,64 @@
       </div>
 
       <div class="footer">
-        <div class="pill">✨ Te amo hoy y siempre</div>
-        <div class="pill">💚 Atlético Nacional campeón (pronto)</div>
-        <div class="pill">🦋 Mariposas azules para ti</div>
+        <div><b style="color:rgba(255,255,255,.85)">Dra:</b> te odio 😭</div>
+        <div style="color:rgba(255,255,255,.75)">— firmado: el que te va a contar el partido como niño</div>
       </div>
     </div>
   </div>
 
+  <div id="toast" class="toast"></div>
+
   <script>
-    // ======= TEXTO PRINCIPAL =======
-    const text = `Hola sapa 💚
+    // ======= TEXTO PRINCIPAL (con tus frases) =======
+    const text = `Hola sapa
 
-Me he fijado, y me di cuenta que estás un poco triste.
+Me he fijado, y me di cuenta que estas un poco triste
 
-Échale ganas, tienes que estar bien cuando Atlético Nacional sea campeón y yo vaya a contarte como un niño el partido.
+Hechale ganas, tienes que estar bien cuando Atlético Nacional sea campeón y yo vaya a contarte como un niño el partido
 
-Porque tu existencia sí hace feliz a las personas correctas.
+Por que tu existencia si hace felicez a las personas correctas.
 
-No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a demostrar por qué soy el mejor.`;
+No estes triste, se feliz, que esos fans sirvan para algo, o si no salgo a demostrar por que soy el mejor`;
 
     document.getElementById("msg").innerHTML =
       text.replace(/Atlético Nacional/g, '<span class="highlight">Atlético Nacional</span>');
 
-    // ======= FONDO GALAXIA (estrellas + anillo neon) =======
+    // ======= Toast =======
+    const toast = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toast.classList.remove("show"), 2800);
+    }
+
+    // ======= Modal: "¿Eres Tatiana?" (Sí / Sí) =======
+    const modal = document.getElementById("modal");
+    function closeModal(){
+      modal.style.display = "none";
+      showToast("Bien. Confirmado ✅ Tatiana Mentirosita / Futura Dra Pulido 😭💚");
+      // mini lluvia inicial
+      for(let i=0;i<8;i++) setTimeout(()=>spawnFloat(), i*160);
+      for(let i=0;i<6;i++) setTimeout(()=>spawnButterfly(), i*220);
+    }
+    document.getElementById("btnSi1").addEventListener("click", closeModal);
+    document.getElementById("btnSi2").addEventListener("click", closeModal);
+
+    // ======= Click al escudo =======
+    document.getElementById("badgeBtn").addEventListener("click", ()=>{
+      const msgs = [
+        "Dra: te odio 😭",
+        "Tatiana Mentirosita 😌",
+        "Futura Dra Pulido 👩‍⚕️",
+        "Nacional campeón y yo gritando como niño 💚",
+        "No estés triste. Sé feliz 🦋"
+      ];
+      showToast(msgs[Math.floor(Math.random()*msgs.length)]);
+    });
+
+    // ======= Fondo galaxia (estrellas + anillo neon) =======
     const c = document.getElementById("bg");
     const ctx = c.getContext("2d");
     let w, h, dpr;
@@ -240,16 +348,16 @@ No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a dem
     resize();
 
     const stars = [];
-    const N = 700;
+    const N = 820;
     function rand(a,b){ return a + Math.random()*(b-a); }
 
     for(let i=0;i<N;i++){
       stars.push({
         x: Math.random()*w,
         y: Math.random()*h,
-        r: rand(.3, 1.6)*dpr,
-        a: rand(.15, .95),
-        tw: rand(.005, .02)
+        r: rand(.3, 1.7)*dpr,
+        a: rand(.12, .95),
+        tw: rand(.004, .02)
       });
     }
 
@@ -261,9 +369,10 @@ No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a dem
       ctx.fillRect(0,0,w,h);
 
       // Nebulosa
-      const g = ctx.createRadialGradient(w*0.5,h*0.55, 0, w*0.5,h*0.55, Math.max(w,h)*0.7);
-      g.addColorStop(0, "rgba(255,60,160,0.14)");
-      g.addColorStop(.45, "rgba(100,255,180,0.08)");
+      const g = ctx.createRadialGradient(w*0.5,h*0.55, 0, w*0.5,h*0.55, Math.max(w,h)*0.75);
+      g.addColorStop(0, "rgba(255,60,160,0.16)");
+      g.addColorStop(.40, "rgba(100,255,180,0.09)");
+      g.addColorStop(.65, "rgba(90,170,255,0.07)");
       g.addColorStop(1, "rgba(0,0,0,0)");
       ctx.fillStyle = g;
       ctx.fillRect(0,0,w,h);
@@ -286,18 +395,20 @@ No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a dem
       ctx.save();
       ctx.globalCompositeOperation = "lighter";
 
-      for(let i=0;i<5;i++){
+      // glow verde
+      for(let i=0;i<6;i++){
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(0,255,140,${0.10 - i*0.012})`;
-        ctx.lineWidth = (18 - i*3)*dpr;
-        ctx.ellipse(cx, cy, pulse*1.55, pulse*0.60, 0, 0, Math.PI*2);
+        ctx.strokeStyle = `rgba(0,255,140,${0.11 - i*0.013})`;
+        ctx.lineWidth = (20 - i*3)*dpr;
+        ctx.ellipse(cx, cy, pulse*1.58, pulse*0.62, 0, 0, Math.PI*2);
         ctx.stroke();
       }
 
+      // borde rosita
       ctx.beginPath();
       ctx.strokeStyle = "rgba(255,120,220,0.85)";
       ctx.lineWidth = 6*dpr;
-      ctx.ellipse(cx, cy, pulse*1.55, pulse*0.60, 0, 0, Math.PI*2);
+      ctx.ellipse(cx, cy, pulse*1.58, pulse*0.62, 0, 0, Math.PI*2);
       ctx.stroke();
 
       ctx.restore();
@@ -306,15 +417,15 @@ No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a dem
     }
     draw();
 
-    // ======= MARIPOSAS AZULES flotando =======
+    // ======= Mariposas =======
     function spawnButterfly(){
       const el = document.createElement("div");
       el.className = "butterfly";
 
       const startX = Math.random()*window.innerWidth;
-      const drift = rand(-120, 120);
+      const drift = rand(-140, 140);
       const dur = rand(10, 18);
-      const size = rand(35, 72);
+      const size = rand(34, 76);
 
       el.style.left = startX + "px";
       el.style.width = size + "px";
@@ -323,8 +434,8 @@ No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a dem
 
       document.body.appendChild(el);
 
-      const startY = window.innerHeight + rand(10, 160);
-      const endY = -rand(160, 320);
+      const startY = window.innerHeight + rand(10, 180);
+      const endY = -rand(180, 340);
 
       el.animate([
         { transform: `translate(0px, ${startY}px) rotate(${rand(-12,12)}deg)` },
@@ -334,8 +445,62 @@ No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a dem
       setTimeout(()=> el.remove(), dur*1000 + 500);
     }
 
-    setInterval(spawnButterfly, 850);
-    for(let i=0;i<7;i++) setTimeout(spawnButterfly, i*350);
+    // ======= Flotantes: doctrosa / flores / corazones =======
+    const floatItems = [
+      { t:"⚕️", min:18, max:30 },
+      { t:"🩺", min:18, max:30 },
+      { t:"💊", min:16, max:26 },
+      { t:"🌸", min:18, max:30 },
+      { t:"💚", min:16, max:26 },
+      { t:"💖", min:16, max:26 },
+      { t:"✨", min:16, max:26 },
+    ];
+
+    function spawnFloat(){
+      const pick = floatItems[Math.floor(Math.random()*floatItems.length)];
+      const el = document.createElement("div");
+      el.className = "float";
+      el.textContent = pick.t;
+
+      const startX = Math.random()*window.innerWidth;
+      const drift = rand(-120, 120);
+      const dur = rand(8, 14);
+      const size = rand(pick.min, pick.max);
+
+      el.style.left = startX + "px";
+      el.style.fontSize = size + "px";
+      el.style.opacity = rand(.45, .95);
+
+      // Colorcito según item
+      if(pick.t === "💚") el.style.filter = "drop-shadow(0 0 10px rgba(0,255,140,.45))";
+      if(pick.t === "🌸" || pick.t === "💖") el.style.filter = "drop-shadow(0 0 10px rgba(255,80,180,.45))";
+      if(pick.t === "⚕️" || pick.t === "🩺" || pick.t === "💊") el.style.filter = "drop-shadow(0 0 10px rgba(90,170,255,.35))";
+
+      document.body.appendChild(el);
+
+      const startY = window.innerHeight + rand(10, 200);
+      const endY = -rand(160, 320);
+
+      el.animate([
+        { transform: `translate(0px, ${startY}px) rotate(${rand(-10,10)}deg)` },
+        { transform: `translate(${drift}px, ${endY}px) rotate(${rand(-30,30)}deg)` }
+      ], { duration: dur*1000, easing:"linear", fill:"forwards" });
+
+      setTimeout(()=> el.remove(), dur*1000 + 500);
+    }
+
+    // intervalos (suave)
+    setInterval(spawnButterfly, 900);
+    setInterval(spawnFloat, 520);
+
+    // Toque extra: al hacer click en cualquier parte, suelta cositas
+    window.addEventListener("click", (e)=>{
+      // evita cerrar modal si está abierto
+      if(modal.style.display !== "none") return;
+      for(let i=0;i<4;i++) setTimeout(spawnFloat, i*80);
+      for(let i=0;i<2;i++) setTimeout(spawnButterfly, i*160);
+    });
   </script>
 </body>
 </html>
+
