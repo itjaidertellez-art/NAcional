@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para ti</title>
+
+  <style>
+    :root{
+      --pink:#ff4fbf;
+      --pink2:#ff2e9f;
+      --card:rgba(10,10,18,.55);
+      --stroke:rgba(255, 90, 190, .35);
+    }
+
+    html,body{
+      margin:0;
+      height:100%;
+      background:#000;
+      overflow:hidden;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    }
+
+    canvas{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      display:block;
+    }
+
+    .wrap{
+      position:fixed;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .card{
+      width:min(780px, 92vw);
+      max-height:min(86vh, 900px);
+      overflow:auto;
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow: 0 0 0 1px rgba(255,80,180,.08), 0 18px 70px rgba(0,0,0,.55);
+      border-radius:24px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position:relative;
+    }
+
+    .glow{
+      position:absolute;
+      inset:-2px;
+      border-radius:26px;
+      pointer-events:none;
+      box-shadow: 0 0 40px rgba(255,70,180,.22), inset 0 0 30px rgba(255,70,180,.10);
+      border:1px solid var(--stroke);
+    }
+
+    .header{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      padding:18px 18px 8px;
+    }
+
+    .badge{
+      width:70px;
+      height:70px;
+      border-radius:18px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      box-shadow: 0 0 20px rgba(0,255,100,.20);
+    }
+
+    .badge img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:8px;
+    }
+
+    h1{
+      margin:0;
+      font-size: clamp(20px, 3.4vw, 34px);
+      color:#ffd6f0;
+      letter-spacing:.4px;
+      text-shadow: 0 0 10px rgba(255,80,180,.6), 0 0 26px rgba(255,60,160,.4);
+    }
+
+    .sub{
+      margin-top:2px;
+      color:rgba(255,255,255,.78);
+      font-size: 13px;
+    }
+
+    .body{
+      padding: 10px 18px 18px;
+    }
+
+    .msg{
+      color:rgba(255,255,255,.90);
+      font-size: clamp(15px, 2.4vw, 18px);
+      line-height:1.65;
+      white-space:pre-wrap;
+    }
+
+    .highlight{
+      color:#7CFFB2;
+      font-weight:800;
+      text-shadow: 0 0 10px rgba(0,255,140,.55);
+    }
+
+    .quote{
+      margin-top:14px;
+      padding:12px 14px;
+      border-left:3px solid rgba(0,255,120,.65);
+      background: rgba(255,255,255,.05);
+      border-radius:14px;
+      color:rgba(255,255,255,.84);
+      font-style:italic;
+    }
+
+    .footer{
+      padding: 0 18px 18px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      color:rgba(255,255,255,.60);
+      font-size:12px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      pointer-events:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    /* Mariposas */
+    .butterfly{
+      position:fixed;
+      top:-20vh;
+      left:0;
+      width:52px;
+      height:52px;
+      background: url("mariposa.png") center/contain no-repeat;
+      filter: drop-shadow(0 0 12px rgba(90,170,255,.75));
+      opacity:.95;
+      pointer-events:none;
+      animation: flutter 1.2s ease-in-out infinite;
+      transform-origin:center;
+    }
+
+    @keyframes flutter{
+      0%,100%{ transform: rotate(-6deg) scale(1); }
+      50%{ transform: rotate(10deg) scale(1.06); }
+    }
+
+    .card::-webkit-scrollbar{width:10px}
+    .card::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:10px}
+    .card::-webkit-scrollbar-track{background:rgba(0,0,0,.2);border-radius:10px}
+
+  </style>
+</head>
+
+<body>
+  <canvas id="bg"></canvas>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="glow"></div>
+
+      <div class="header">
+        <div class="badge">
+          <img src="nacional.png" alt="Escudo Atlético Nacional">
+        </div>
+        <div>
+          <h1>Hola sapa 💚🦋</h1>
+          <div class="sub">Un mensajito para ti, en modo galaxia</div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="msg" id="msg"></div>
+
+        <div class="quote">
+          “Y mi cucho me decía en el estadiooo, que debíamos odiar a millonariosss” 😭💚
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="pill">✨ Te amo hoy y siempre</div>
+        <div class="pill">💚 Atlético Nacional campeón (pronto)</div>
+        <div class="pill">🦋 Mariposas azules para ti</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ======= TEXTO PRINCIPAL =======
+    const text = `Hola sapa 💚
+
+Me he fijado, y me di cuenta que estás un poco triste.
+
+Échale ganas, tienes que estar bien cuando Atlético Nacional sea campeón y yo vaya a contarte como un niño el partido.
+
+Porque tu existencia sí hace feliz a las personas correctas.
+
+No estés triste, sé feliz, que esos fans sirvan para algo, o si no salgo a demostrar por qué soy el mejor.`;
+
+    document.getElementById("msg").innerHTML =
+      text.replace(/Atlético Nacional/g, '<span class="highlight">Atlético Nacional</span>');
+
+    // ======= FONDO GALAXIA (estrellas + anillo neon) =======
+    const c = document.getElementById("bg");
+    const ctx = c.getContext("2d");
+    let w, h, dpr;
+
+    function resize(){
+      dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      w = c.width = Math.floor(innerWidth * dpr);
+      h = c.height = Math.floor(innerHeight * dpr);
+      c.style.width = innerWidth + "px";
+      c.style.height = innerHeight + "px";
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const stars = [];
+    const N = 700;
+    function rand(a,b){ return a + Math.random()*(b-a); }
+
+    for(let i=0;i<N;i++){
+      stars.push({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: rand(.3, 1.6)*dpr,
+        a: rand(.15, .95),
+        tw: rand(.005, .02)
+      });
+    }
+
+    let t = 0;
+    function draw(){
+      t += 0.01;
+
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0,0,w,h);
+
+      // Nebulosa
+      const g = ctx.createRadialGradient(w*0.5,h*0.55, 0, w*0.5,h*0.55, Math.max(w,h)*0.7);
+      g.addColorStop(0, "rgba(255,60,160,0.14)");
+      g.addColorStop(.45, "rgba(100,255,180,0.08)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0,0,w,h);
+
+      // Estrellas
+      for(const s of stars){
+        s.a += Math.sin(t*3 + s.x*0.001)*s.tw;
+        const a = Math.max(.05, Math.min(.95, s.a));
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(255,255,255,${a})`;
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+
+      // Anillo neon
+      const cx = w*0.5, cy = h*0.62;
+      const base = Math.min(w,h)*0.18;
+      const pulse = (Math.sin(t*2)*0.02 + 1) * base;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+
+      for(let i=0;i<5;i++){
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(0,255,140,${0.10 - i*0.012})`;
+        ctx.lineWidth = (18 - i*3)*dpr;
+        ctx.ellipse(cx, cy, pulse*1.55, pulse*0.60, 0, 0, Math.PI*2);
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.strokeStyle = "rgba(255,120,220,0.85)";
+      ctx.lineWidth = 6*dpr;
+      ctx.ellipse(cx, cy, pulse*1.55, pulse*0.60, 0, 0, Math.PI*2);
+      ctx.stroke();
+
+      ctx.restore();
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // ======= MARIPOSAS AZULES flotando =======
+    function spawnButterfly(){
+      const el = document.createElement("div");
+      el.className = "butterfly";
+
+      const startX = Math.random()*window.innerWidth;
+      const drift = rand(-120, 120);
+      const dur = rand(10, 18);
+      const size = rand(35, 72);
+
+      el.style.left = startX + "px";
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      el.style.opacity = rand(.55, .98);
+
+      document.body.appendChild(el);
+
+      const startY = window.innerHeight + rand(10, 160);
+      const endY = -rand(160, 320);
+
+      el.animate([
+        { transform: `translate(0px, ${startY}px) rotate(${rand(-12,12)}deg)` },
+        { transform: `translate(${drift}px, ${endY}px) rotate(${rand(-25,25)}deg)` }
+      ], { duration: dur*1000, easing:"linear", fill:"forwards" });
+
+      setTimeout(()=> el.remove(), dur*1000 + 500);
+    }
+
+    setInterval(spawnButterfly, 850);
+    for(let i=0;i<7;i++) setTimeout(spawnButterfly, i*350);
+  </script>
+</body>
+</html>
